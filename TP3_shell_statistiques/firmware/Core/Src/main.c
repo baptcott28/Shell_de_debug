@@ -53,8 +53,8 @@ h_shell_t shell;
 int ledPeriod = 0;
 int error=1;
 TaskHandle_t ledTaskHandler;
-
 TaskHandle_t taskBidonhandler;
+char statistiques[256];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,6 +107,13 @@ void taskBidon(void * pvParameters){
 	printf("Tache Bidon\r\n");
 }
 
+int GetRunTimeStats(h_shell_t* shell, int argc, char ** argv){
+	vTaskGetRunTimeStats((char *) &statistiques);
+	printf("%s",statistiques);
+	return 0;
+}
+
+
 
 /* USER CODE END 0 */
 
@@ -148,6 +155,7 @@ int main(void)
 	shell_init(&shell);
 	shell_add(&shell, 'f', fonction, "Une fonction inutile");
 	shell_add(&shell, 'l', ledBlink, "Fait clignoter la LED");
+	shell_add(&shell, 'g', GetRunTimeStats, "GetRunTimeStats");
 	shell_start(&shell);
 	if(pdTRUE != xTaskCreate(ledTask, "ledTask", STACK_DEPTH, (void*) NULL, 9, &ledTaskHandler)){
 		printf("task failed");
