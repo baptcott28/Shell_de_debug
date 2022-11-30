@@ -12,7 +12,7 @@ SemaphoreHandle_t sem_usart1;
 
 void drv_uart_init(){
 	sem_usart1 = xSemaphoreCreateBinary();
-	if(sem_usart1==NULL){
+	if(sem_usart1=NULL){
 		printf("creation sem1 failed \r\n");
 		Error_Handler();
 	}

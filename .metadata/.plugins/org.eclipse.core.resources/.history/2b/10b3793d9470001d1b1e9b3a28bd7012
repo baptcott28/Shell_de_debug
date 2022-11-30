@@ -145,8 +145,6 @@ int main(void)
 
 	drv_uart_init();
 
-
-
 	shell_init(&shell);
 	shell_add(&shell, 'f', fonction, "Une fonction inutile");
 	shell_add(&shell, 'l', ledBlink, "Fait clignoter la LED");

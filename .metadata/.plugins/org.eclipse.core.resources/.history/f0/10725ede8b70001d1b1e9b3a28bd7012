@@ -12,8 +12,8 @@ SemaphoreHandle_t sem_usart1;
 
 void drv_uart_init(){
 	sem_usart1 = xSemaphoreCreateBinary();
-	if(sem_usart1==NULL){
-		printf("creation sem1 failed \r\n");
+	if(sem_usart1=NULL){
+		printf("cration sem1 failed \r\n");
 		Error_Handler();
 	}
 	//xSemaphoreGive(sem_usart1);
@@ -29,9 +29,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 uint8_t drv_uart_receive(char * pData, uint16_t size){
 	if(HAL_OK == HAL_UART_Receive_IT(&huart1, (uint8_t*) pData, size))
 	{
-		if(pdFALSE==(xSemaphoreTake(sem_usart1, portMAX_DELAY))){
-			printf("semaphore take by drv_uart_receive failed\r\n");
-		}
+		xSemaphoreTake(sem_usart1, portMAX_DELAY);
 		return 0;
 	}
 	return -1;

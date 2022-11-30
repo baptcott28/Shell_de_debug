@@ -51,7 +51,6 @@
 /* USER CODE BEGIN PV */
 h_shell_t shell;
 int ledPeriod = 0;
-int error=1;
 TaskHandle_t ledTaskHandler;
 
 TaskHandle_t taskBidonhandler;
@@ -103,11 +102,9 @@ static void ledTask (void * pvParameters){
 	}
 }
 
-void taskBidon(void * pvParameters){
-	printf("Tache Bidon\r\n");
+void taskBidon(void){
+	printf("tache_bidon\r\n");
 }
-
-
 /* USER CODE END 0 */
 
 /**
@@ -145,8 +142,6 @@ int main(void)
 
 	drv_uart_init();
 
-
-
 	shell_init(&shell);
 	shell_add(&shell, 'f', fonction, "Une fonction inutile");
 	shell_add(&shell, 'l', ledBlink, "Fait clignoter la LED");
@@ -156,14 +151,8 @@ int main(void)
 		Error_Handler();
 	}
 
-	while(error){
-		if(xTaskCreate(taskBidon,"task bidon",STACK_DEPTH,(void *)NULL,TASK_BIDON_PRIORITY,&taskBidonhandler)==errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY){
-			error=0;
-			printf("errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY\r\n");
-		}
-		else{
-			printf("task bidon created\r\n");
-		}
+	while(!error){
+		xTaskCreate(taskBidon,"task bidon",STACK_DEPTH,NULL,TASK_BIDON_PRIORITY,&taskBidonhandler);
 	}
 
 	vTaskStartScheduler();

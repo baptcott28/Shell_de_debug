@@ -1,0 +1,35 @@
+10:46:42 **** Incremental Build of configuration Debug for project rtos_td_shell ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/bapti/Documents/GitHub/TP3_shell/TP3_shell_statistiques/firmware/shell" -I"C:/Users/bapti/Documents/GitHub/TP3_shell/TP3_shell_statistiques/firmware/Uart driver" -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_td_shell.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\bapti\Documents\GitHub\TP3_shell\TP3_shell_statistiques\firmware\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_td_shell.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_td_shell.elf
+ 
+arm-none-eabi-size   rtos_td_shell.elf 
+arm-none-eabi-objdump -h -S  rtos_td_shell.elf  > "rtos_td_shell.list"
+   text	   data	    bss	    dec	    hex	filename
+  33492	    136	  18976	  52604	   cd7c	rtos_td_shell.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_td_shell.list
+ 
+10:46:46 **** Incremental Build of configuration Debug for project rtos_td_shell ****
+make -j8 all 
+arm-none-eabi-size   rtos_td_shell.elf 
+   text	   data	    bss	    dec	    hex	filename
+  33492	    136	  18976	  52604	   cd7c	rtos_td_shell.elf
+Finished building: default.size.stdout
+ 
+10:49:22 **** Incremental Build of configuration Debug for project rtos_td_shell ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F746xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/bapti/Documents/GitHub/TP3_shell/TP3_shell_statistiques/firmware/shell" -I"C:/Users/bapti/Documents/GitHub/TP3_shell/TP3_shell_statistiques/firmware/Uart driver" -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_td_shell.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\bapti\Documents\GitHub\TP3_shell\TP3_shell_statistiques\firmware\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_td_shell.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_td_shell.elf
+ 
+arm-none-eabi-size   rtos_td_shell.elf 
+arm-none-eabi-objdump -h -S  rtos_td_shell.elf  > "rtos_td_shell.list"
+   text	   data	    bss	    dec	    hex	filename
+  33492	    136	  18976	  52604	   cd7c	rtos_td_shell.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_td_shell.list
+ 
