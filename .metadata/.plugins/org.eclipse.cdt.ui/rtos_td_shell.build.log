@@ -1,10 +1,10 @@
-11:55:46 **** Incremental Build of configuration Debug for project rtos_td_shell ****
+14:50:56 **** Incremental Build of configuration Debug for project rtos_td_shell ****
 make -j8 all 
 arm-none-eabi-size   rtos_td_shell.elf 
    text	   data	    bss	    dec	    hex	filename
-  35152	    136	  22896	  58184	   e348	rtos_td_shell.elf
+  35152	    132	  22892	  58176	   e340	rtos_td_shell.elf
 Finished building: default.size.stdout
  
 
-11:55:46 Build Finished. 0 errors, 0 warnings. (took 596ms)
+14:50:57 Build Finished. 0 errors, 0 warnings. (took 594ms)
 

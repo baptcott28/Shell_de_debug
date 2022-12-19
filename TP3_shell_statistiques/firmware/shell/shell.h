@@ -19,15 +19,18 @@
 
 struct h_shell_struct;
 
-typedef uint8_t (* drv_shell_transmit_t)(char * pData, uint16_t size);
-typedef uint8_t (* drv_shell_receive_t)(char * pData, uint16_t size);
-
-
+// definition de la sturcture de fonctions du shell
 typedef struct{
-	char c;
+	char * function_name;
 	int (* func)(struct h_shell_struct* shell, int argc, char ** argv);
 	char * description;
 } shell_func_t;
+
+
+// definition de la structure de la transmission ratachée au shell
+
+typedef uint8_t (* drv_shell_transmit_t)(char * pData, uint16_t size);
+typedef uint8_t (* drv_shell_receive_t)(char * pData, uint16_t size);
 
 typedef struct drv_shell_struct
 {
@@ -35,6 +38,8 @@ typedef struct drv_shell_struct
 	drv_shell_receive_t receive;
 } drv_shell_t;
 
+
+// definition du shell
 
 typedef struct h_shell_struct{
 	int shell_func_list_size;
@@ -50,7 +55,7 @@ typedef struct h_shell_struct{
 
 
 void shell_init(h_shell_t* shell);
-int shell_add(h_shell_t* shell, char c, int (* pfunc)(h_shell_t* shell, int argc, char ** argv), char * description);
+int shell_add(h_shell_t* shell, char * function_name, int (* pfunc)(h_shell_t* shell, int argc, char ** argv), char * description);
 int shell_run(h_shell_t* shell);
 void shell_start(h_shell_t* shell);
 char uart_read(h_shell_t* shell);

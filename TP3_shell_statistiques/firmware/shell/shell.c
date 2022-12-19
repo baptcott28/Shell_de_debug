@@ -8,6 +8,8 @@
 #include "shell.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include "string.h"
 
 #include "usart.h"
 #include "gpio.h"
@@ -34,13 +36,11 @@ static int sh_help(h_shell_t* shell, int argc, char ** argv) {
 	int i;
 	for(i = 0 ; i < shell->shell_func_list_size ; i++) {
 		int size;
-		size = snprintf (shell->print_buffer, BUFFER_SIZE, "%c: %s\r\n", shell->shell_func_list[i].c, shell->shell_func_list[i].description);
+		size = snprintf (shell->print_buffer, BUFFER_SIZE, "%s: %s\r\n", shell->shell_func_list[i].function_name, shell->shell_func_list[i].description);
 		uart_write(shell, shell->print_buffer, size);
 	}
 	return 0;
 }
-
-
 
 void shell_init(h_shell_t* shell) {
 	int size = 0;
@@ -51,7 +51,7 @@ void shell_init(h_shell_t* shell) {
 	size = snprintf (shell->print_buffer, BUFFER_SIZE, "\r\n\r\n===== Monsieur Shell v0.2 =====\r\n");
 	uart_write(shell, shell->print_buffer, size);
 
-	shell_add(shell, 'h', sh_help, "Help");
+	shell_add(shell,"help", sh_help, "Help");
 }
 
 static void shellTask (void * pvParameters){
@@ -70,9 +70,9 @@ void shell_start(h_shell_t* shell){
 
 }
 
-int shell_add(h_shell_t* shell, char c, int (* pfunc)(h_shell_t* shell, int argc, char ** argv), char * description) {
+int shell_add(h_shell_t* shell, char * function_name, int (* pfunc)(h_shell_t* shell, int argc, char ** argv), char * description) {
 	if (shell->shell_func_list_size < SHELL_FUNC_LIST_MAX_SIZE) {
-		shell->shell_func_list[shell->shell_func_list_size].c = c;
+		shell->shell_func_list[shell->shell_func_list_size].function_name = function_name;
 		shell->shell_func_list[shell->shell_func_list_size].func = pfunc;
 		shell->shell_func_list[shell->shell_func_list_size].description = description;
 		shell->shell_func_list_size++;
@@ -82,33 +82,36 @@ int shell_add(h_shell_t* shell, char c, int (* pfunc)(h_shell_t* shell, int argc
 	return -1;
 }
 
+// shell_exec return (int argc char ** argv)
 static int shell_exec(h_shell_t* shell, char * buf) {
 	int i;
 
-	char c = buf[0];
-
+	// mise sous forme tableau d'argv
 	int argc;
 	char * argv[ARGC_MAX];
 	char *p;
 
+	argc = 1;
+
+	// petite sorcellerie jsp comment ca peut arriver mais ca marche (auteur : fiack)
+	argv[0] = buf;
+
+	for(p = buf ; *p != '\0' && argc < ARGC_MAX ; p++){
+		printf("*p : %s\r\n",p);
+		if(*p == ' ') {
+			*p = '\0';
+			argv[argc++] = p+1;
+		}
+	}
+
 	for(i = 0 ; i < shell->shell_func_list_size ; i++) {
-		if (shell->shell_func_list[i].c == c) {
-			argc = 1;
-			argv[0] = buf;
-
-			for(p = buf ; *p != '\0' && argc < ARGC_MAX ; p++){
-				if(*p == ' ') {
-					*p = '\0';
-					argv[argc++] = p+1;
-				}
-			}
-
+		if (strcmp(shell->shell_func_list[i].function_name,argv[0])==0) {
 			return shell->shell_func_list[i].func(shell, argc, argv);
 		}
 	}
 
 	int size;
-	size = snprintf (shell->print_buffer, BUFFER_SIZE, "%c: no such command\r\n", c);
+	size = snprintf (shell->print_buffer, BUFFER_SIZE, "%s: no such command\r\n", argv[0]);
 	uart_write(shell, shell->print_buffer, size);
 	return -1;
 }
@@ -143,7 +146,7 @@ int shell_run(h_shell_t* shell) {
 				//backspace
 			case '\b':
 				if (pos > 0) {      //is there a char to delete?
-					pos--;          //remove it in buffer
+					cmd_buffer[pos--]='\0';          //remove it in buffer
 
 					uart_write(shell, backspace, 3);	// delete the char on the terminal
 				}
